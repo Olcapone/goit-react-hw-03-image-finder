@@ -1,25 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import { Component } from "react";
+import "./App.css";
+import Searchbar from "./components/Searchbar/Searchbar";
+import View from "./components/View/View";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends Component {
+  state = {
+    pictureName: "",
+  };
+
+  handleFormSubmit = (imageName) => {
+    if (imageName.trim() === "") {
+      alert("enter name");
+      return;
+    } else {
+      this.setState({ pictureName: imageName });
+    }
+  };
+
+  render() {
+    return (
+      <>
+        <Searchbar onSubmit={this.handleFormSubmit} />
+        <View pictureName={this.state.pictureName} />
+      </>
+    );
+  }
 }
-
-export default App;
