@@ -29,13 +29,14 @@ export default class View extends Component {
           return Promise.reject(new Error(`Image not found ${nextName}`));
         })
         .then((pictures) => {
+          if (pictures.total === 0) {
+            toast.error(`Image ${nextName} not found`);
+            return pictures;
+          }
+
           this.setState({ pictures, status: "resolved" });
-          pictures.total === 0 && toast.error(`Image ${nextName} not found`);
         })
-        .catch((error) => {
-          this.setState({ error, status: "reject" });
-          toast.error(`Image ${nextName} not found`);
-        });
+        .catch((error) => this.setState({ error, status: "reject" }));
     }
   }
 
@@ -50,11 +51,11 @@ export default class View extends Component {
       return <Loader />;
     }
 
-    if (status === "resolved") {
+    if (status === "reject") {
       return <></>;
     }
 
-    if (status === "resolved" && pictures.total !== 0) {
+    if (status === "resolved") {
       return <ImageGallery images={pictures} />;
     }
   }
