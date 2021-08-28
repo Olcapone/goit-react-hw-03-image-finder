@@ -8,7 +8,8 @@ export default function ImageGallery({ images }) {
         {images.hits.map((image) => (
           <ImageGalleryItem
             key={image.id}
-            imageURL={image.userImageURL || image.webformatURL}
+            largeImg={image.largeImageURL}
+            imageURL={image.previewURL || image.webformatURL}
             tags={image.tags}
           />
         ))}
