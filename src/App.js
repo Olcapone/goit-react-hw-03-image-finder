@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import "./App.css";
 import Searchbar from "./components/Searchbar/Searchbar";
 import View from "./components/View/View";
@@ -10,7 +11,7 @@ export default class App extends Component {
 
   handleFormSubmit = (imageName) => {
     if (imageName.trim() === "") {
-      alert("enter name");
+      toast.info(" Enter anything word! ");
       return;
     } else {
       this.setState({ pictureName: imageName });
@@ -22,6 +23,7 @@ export default class App extends Component {
       <>
         <Searchbar onSubmit={this.handleFormSubmit} />
         <View pictureName={this.state.pictureName} />
+        <ToastContainer />
       </>
     );
   }
