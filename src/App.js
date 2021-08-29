@@ -1,12 +1,22 @@
 import { Component } from "react";
+import PropTypes from "prop-types";
 import { ToastContainer, toast } from "react-toastify";
+
 import "./App.css";
 import Searchbar from "./components/Searchbar/Searchbar";
-import View from "./components/View/View";
+import ImageGallery from "./components/ImageGallery/ImageGallery";
 
 export default class App extends Component {
+  static defaultProps = {
+    initialName: "",
+  };
+
+  static propTypes = {
+    initialName: PropTypes.string,
+  };
+
   state = {
-    pictureName: "",
+    pictureName: this.props.initialName,
   };
 
   handleFormSubmit = (imageName) => {
@@ -22,7 +32,7 @@ export default class App extends Component {
     return (
       <>
         <Searchbar onSubmit={this.handleFormSubmit} />
-        <View pictureName={this.state.pictureName} />
+        <ImageGallery pictureName={this.state.pictureName} />
         <ToastContainer />
       </>
     );

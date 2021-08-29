@@ -1,5 +1,6 @@
 import { Component } from "react";
 import Modal from "../Modal/Modal";
+import PropTypes from "prop-types";
 
 import s from "./ImageGalleryItem.module.css";
 
@@ -29,3 +30,9 @@ export default class ImageGalleryItem extends Component {
     );
   }
 }
+
+ImageGalleryItem.propTypes = {
+  imageURL: PropTypes.string,
+  tags: PropTypes.string,
+  largeImg: PropTypes.string,
+};
