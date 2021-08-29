@@ -13,8 +13,6 @@ export default class View extends Component {
     error: null,
   };
 
-  componentDidMount() {}
-
   componentDidUpdate(prevProps, PrevState) {
     let nextName = this.props.pictureName;
     let nextPage = this.state.page;
@@ -36,15 +34,35 @@ export default class View extends Component {
             toast.error(`Image ${nextName} not found`);
             return pictures;
           }
+          let prevPicture = this.state.pictures;
+          let nextPicture = pictures.hits;
 
-          this.setState({ pictures, status: "resolved" });
+          if (prevPicture === null) {
+            return this.setState({ pictures: nextPicture, status: "resolved" });
+          } else {
+            this.setState(({ pictures }) => ({
+              pictures: [...prevPicture, ...nextPicture],
+              status: "resolved",
+            }));
+            return;
+          }
         })
-        .catch((error) => this.setState({ error, status: "reject" }));
+        .catch((error) =>
+          this.setState({
+            error: `Image not found ${nextName}`,
+            status: "reject",
+          })
+        );
     }
   }
 
   clickOnLoad = () => {
     this.setState((state) => ({ page: state.page + 1 }));
+
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
   };
 
   render() {

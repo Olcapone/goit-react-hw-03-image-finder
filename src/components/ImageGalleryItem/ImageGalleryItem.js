@@ -1,5 +1,6 @@
 import { Component } from "react";
 import Modal from "../Modal/Modal";
+
 import s from "./ImageGalleryItem.module.css";
 
 export default class ImageGalleryItem extends Component {
@@ -13,10 +14,14 @@ export default class ImageGalleryItem extends Component {
 
   render() {
     const { showModal } = this.state;
-    const { imageURL, tags, largeImg } = this.props;
+    const { imageURL, tags, largeImg, keyID } = this.props;
     return (
       <>
-        <li className={s.ImageGalleryItem} onClick={this.toggleModal}>
+        <li
+          key={keyID}
+          className={s.ImageGalleryItem}
+          onClick={this.toggleModal}
+        >
           <img src={imageURL} alt={tags} className={s.ImageGalleryItemImage} />
         </li>
         {showModal && (
