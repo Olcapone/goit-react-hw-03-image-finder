@@ -4,6 +4,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import s from "../ImageGallery/ImageGallery.module.css";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
+import ImageNotFound from "../ImageNotFound/ImageNotFound";
 import Loader from "../../utils/Loader/Loader";
 import Button from "../Button/Button";
 
@@ -35,7 +36,8 @@ export default class ImageGallery extends Component {
         .then((pictures) => {
           if (pictures.total === 0) {
             toast.error(`Image ${nextName} not found`);
-            return pictures;
+            this.setState({ status: "reject" });
+            return;
           }
 
           this.setState((prevState) => ({
@@ -93,7 +95,7 @@ export default class ImageGallery extends Component {
     }
 
     if (status === "reject") {
-      return <></>;
+      return <ImageNotFound />;
     }
 
     if (status === "resolved") {
