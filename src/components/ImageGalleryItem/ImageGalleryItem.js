@@ -14,14 +14,10 @@ export default class ImageGalleryItem extends Component {
 
   render() {
     const { showModal } = this.state;
-    const { imageURL, tags, largeImg, keyID } = this.props;
+    const { imageURL, tags, largeImg } = this.props;
     return (
       <>
-        <li
-          key={keyID}
-          className={s.ImageGalleryItem}
-          onClick={this.toggleModal}
-        >
+        <li className={s.ImageGalleryItem} onClick={this.toggleModal}>
           <img src={imageURL} alt={tags} className={s.ImageGalleryItemImage} />
         </li>
         {showModal && (
