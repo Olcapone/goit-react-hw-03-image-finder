@@ -22,7 +22,7 @@ export default class ImageGallery extends Component {
     let nextName = this.props.pictureName;
 
     if (prevProps.pictureName !== nextName) {
-      this.setState({ status: "pending" });
+      this.setState({ status: "pending", page: 1 });
       toast.info(" Waiting... ");
       fetch(
         `https://pixabay.com/api/?q=${nextName}&page=1&key=${myKey}&image_type=photo&orientation=horizontal&per_page=12`
