@@ -3,12 +3,11 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import s from "../ImageGallery/ImageGallery.module.css";
+import Api from "../Api/Api";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 import ImageNotFound from "../ImageNotFound/ImageNotFound";
-import Loader from "../../utils/Loader/Loader";
+import Loader from "../Loader/Loader";
 import Button from "../Button/Button";
-
-let myKey = "22421278-3374a5bf35dcd0f85e00cdc81";
 
 export default class ImageGallery extends Component {
   state = {
@@ -19,23 +18,18 @@ export default class ImageGallery extends Component {
   };
 
   componentDidUpdate(prevProps, PrevState) {
-    let nextName = this.props.pictureName;
+    const { pictureName } = this.props;
+    const { page } = this.state;
 
-    if (prevProps.pictureName !== nextName) {
+    if (prevProps.pictureName !== pictureName) {
       this.setState({ status: "pending", page: 1 });
+
       toast.info(" Waiting... ");
-      fetch(
-        `https://pixabay.com/api/?q=${nextName}&page=1&key=${myKey}&image_type=photo&orientation=horizontal&per_page=12`
-      )
-        .then((response) => {
-          if (response.ok) {
-            return response.json();
-          }
-          return Promise.reject(new Error(`Image not found ${nextName}`));
-        })
+
+      Api({ pictureName, page })
         .then((pictures) => {
           if (pictures.total === 0) {
-            toast.error(`Image ${nextName} not found`);
+            toast.error(`Image ${pictureName} not found`);
             this.setState({ status: "reject" });
             return;
           }
@@ -48,7 +42,7 @@ export default class ImageGallery extends Component {
         })
         .catch((error) =>
           this.setState({
-            error: `Image not found ${nextName}`,
+            error: `Image not found ${pictureName}`,
             status: "reject",
           })
         );
@@ -59,28 +53,20 @@ export default class ImageGallery extends Component {
     const { pictureName } = this.props;
     const { page } = this.state;
 
-    fetch(
-      `https://pixabay.com/api/?q=${pictureName}&page=${page}&key=${myKey}&image_type=photo&orientation=horizontal&per_page=12`
-    )
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        return Promise.reject(new Error(`Image not found ${pictureName}`));
-      })
-      .then((pictures) => {
-        let nextPicture = pictures.hits;
+    Api(pictureName, page).then((pictures) => {
+      let nextPicture = pictures.hits;
 
-        this.setState((prevState) => ({
-          pictures: [...prevState.pictures, ...nextPicture],
-          status: "resolved",
-          page: prevState.page + 1,
-        }));
-        window.scrollTo({
-          top: document.documentElement.scrollHeight,
-          behavior: "smooth",
-        });
+      this.setState((prevState) => ({
+        pictures: [...prevState.pictures, ...nextPicture],
+        status: "resolved",
+        page: prevState.page + 1,
+      }));
+
+      window.scrollTo({
+        top: document.documentElement.scrollHeight,
+        behavior: "smooth",
       });
+    });
   };
 
   render() {
