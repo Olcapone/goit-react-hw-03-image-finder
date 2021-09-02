@@ -22,7 +22,6 @@ export default class App extends Component {
   handleFormSubmit = (imageName) => {
     if (imageName.trim() === "") {
       toast.info(" Enter anything word! ");
-      return;
     } else {
       this.setState({ pictureName: imageName });
     }

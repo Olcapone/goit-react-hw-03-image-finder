@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import s from "../ImageGallery/ImageGallery.module.css";
-import Api from "../Api/Api";
+import Api from "../../Api/Api";
 import ImageGalleryItem from "../ImageGalleryItem/ImageGalleryItem";
 import ImageNotFound from "../ImageNotFound/ImageNotFound";
 import Loader from "../Loader/Loader";
